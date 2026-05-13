@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="NailSalon.API/NailSalon.API.csproj" />
+  <Project Path="NailSalon.Application/NailSalon.Application.csproj" />
+  <Project Path="NailSalon.Domain/NailSalon.Domain.csproj" Id="7592fa29-ef10-41a5-83e6-63445b2ac25b" />
+  <Project Path="NailSalon.Infrastructure/NailSalon.Infrastructure.csproj" Id="bbf99783-3089-44f3-ab41-ca802aff3399" />
+</Solution>
