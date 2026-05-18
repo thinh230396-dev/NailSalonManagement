@@ -1,82 +1,70 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.DTOs.Appointment;
-using NailSalon.Application.Interfaces.Services;
-using NailSalon.Domain.Enums;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.Appointments.Commands.ChangeStatus;
+using NailSalon.Application.Features.Appointments.Commands.Create;
+using NailSalon.Application.Features.Appointments.Commands.Delete;
+using NailSalon.Application.Features.Appointments.Commands.Update;
+using NailSalon.Application.Features.Appointments.Queries.GetByDate;
+using NailSalon.Application.Features.Appointments.Queries.GetById;
+using NailSalon.Application.Features.Appointments.Queries.GetList;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class AppointmentsController : ControllerBase
 {
-    private readonly IAppointmentService _appointmentService;
+    private readonly IMediator _mediator;
 
-    public AppointmentsController(IAppointmentService appointmentService)
+    public AppointmentsController(IMediator mediator)
     {
-        _appointmentService = appointmentService;
+        _mediator = mediator;
     }
 
-    // 1. Lấy danh sách tất cả lịch hẹn
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetList()
     {
-        var appointments = await _appointmentService.GetAllAppointmentsAsync();
-        return Ok(appointments);
+        return Ok(await _mediator.Send(new GetAppointmentListQuery()));
     }
 
-    // 2. Lấy chi tiết lịch hẹn theo ID
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
-        if (appointment == null) return NotFound("Không tìm thấy lịch hẹn.");
-
-        return Ok(appointment);
+        return Ok(await _mediator.Send(new GetAppointmentByIdQuery(id)));
     }
 
-    // 3. Đặt lịch hẹn mới (POST) - Nơi xử lý logic trùng lịch
+    [HttpGet("by-date")]
+    public async Task<IActionResult> GetByDate([FromQuery] DateTime date)
+    {
+        return Ok(await _mediator.Send(new GetAppointmentsByDateQuery(date)));
+    }
+
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUpdateAppointmentDto dto)
+    public async Task<IActionResult> Create(CreateAppointmentCommand command)
     {
-        try
-        {
-            var newAppointment = await _appointmentService.CreateAppointmentAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = newAppointment.Id }, newAppointment);
-        }
-        catch (Exception ex)
-        {
-            // Trả về lỗi nếu trùng lịch hoặc thời gian không hợp lệ
-            return BadRequest(new { message = ex.Message });
-        }
+        return Ok(await _mediator.Send(command));
     }
 
-    // 4. Cập nhật trạng thái lịch hẹn (Ví dụ: Chuyển từ Pending sang Confirmed hoặc Completed)
-    [HttpPatch("{id:guid}/status")]
-    public async Task<IActionResult> UpdateStatus(Guid id, [FromQuery] int status)
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, UpdateAppointmentCommand command)
     {
-        try
-        {
-            await _appointmentService.UpdateStatusAsync(id, status);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        command.Id = id;
+        await _mediator.Send(command);
+        return NoContent();
     }
 
-    // 5. Hủy lịch hẹn
+    [HttpPut("{id:guid}/status")]
+    public async Task<IActionResult> ChangeStatus(Guid id, ChangeAppointmentStatusCommand command)
+    {
+        command.Id = id;
+        await _mediator.Send(command);
+        return NoContent();
+    }
+
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Cancel(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        try
-        {
-            await _appointmentService.CancelAppointmentAsync(id);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        await _mediator.Send(new DeleteAppointmentCommand(id));
+        return NoContent();
     }
 }

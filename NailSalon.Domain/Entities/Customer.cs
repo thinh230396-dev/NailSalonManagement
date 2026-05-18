@@ -13,5 +13,4 @@ public class Customer : BaseEntity
 
     // Navigation Properties
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
-    public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();
-}
+    public virtual ICollection<Invoice> Invoices { get; set; } = new List<Invoice>();}

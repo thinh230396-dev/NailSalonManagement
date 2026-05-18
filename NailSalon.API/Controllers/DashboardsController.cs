@@ -1,23 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.Interfaces.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.Dashboard.Queries.GetOverview;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
-public class DashboardController : ControllerBase
+[Route("api/[controller]")]
+public class DashboardsController : ControllerBase
 {
-    private readonly IDashboardService _dashboardService;
+    private readonly IMediator _mediator;
 
-    public DashboardController(IDashboardService dashboardService)
+    public DashboardsController(IMediator mediator)
     {
-        _dashboardService = dashboardService;
+        _mediator = mediator;
     }
 
-    [HttpGet("summary")]
-    public async Task<IActionResult> GetSummary()
+    [HttpGet("overview")]
+    public async Task<IActionResult> GetOverview()
     {
-        var result = await _dashboardService.GetSummaryAsync();
+        var result = await _mediator.Send(new GetDashboardOverviewQuery());
         return Ok(result);
     }
 }

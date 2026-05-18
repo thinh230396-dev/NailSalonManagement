@@ -1,88 +1,57 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.DTOs.Customer;
-using NailSalon.Application.Interfaces.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.Customers.Commands.Create;
+using NailSalon.Application.Features.Customers.Commands.Delete;
+using NailSalon.Application.Features.Customers.Commands.Update;
+using NailSalon.Application.Features.Customers.Queries.GetById;
+using NailSalon.Application.Features.Customers.Queries.GetList;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
-    private readonly ICustomerService _customerService;
+    private readonly IMediator _mediator;
 
-    public CustomersController(ICustomerService customerService)
+    public CustomersController(IMediator mediator)
     {
-        _customerService = customerService;
+        _mediator = mediator;
     }
 
-    // GET: api/customers
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetList()
     {
-        var customers = await _customerService.GetAllCustomersAsync();
-        return Ok(customers);
+        var result = await _mediator.Send(new GetCustomerListQuery());
+        return Ok(result);
     }
 
-    // GET: api/customers/{id}
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var customer = await _customerService.GetCustomerByIdAsync(id);
-        if (customer == null) return NotFound("Không tìm thấy khách hàng.");
-
-        return Ok(customer);
+        var result = await _mediator.Send(new GetCustomerByIdQuery(id));
+        return Ok(result);
     }
 
-    // POST: api/customers
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUpdateCustomerDto dto)
+    public async Task<IActionResult> Create(CreateCustomerCommand command)
     {
-        try
-        {
-            var newCustomer = await _customerService.CreateCustomerAsync(dto);
-            // Trả về HTTP 201 Created kèm theo URL để lấy thông tin khách hàng vừa tạo
-            return CreatedAtAction(nameof(GetById), new { id = newCustomer.Id }, newCustomer);
-        }
-        catch (Exception ex)
-        {
-            // Bắt lỗi trùng số điện thoại đã ném ra từ Service
-            return BadRequest(new { message = ex.Message });
-        }
+        var id = await _mediator.Send(command);
+        return Ok(id);
     }
 
-    // PUT: api/customers/{id}
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] CreateUpdateCustomerDto dto)
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, UpdateCustomerCommand command)
     {
-        try
-        {
-            await _customerService.UpdateCustomerAsync(id, dto);
-
-            // Chuyển sang trả về Ok kèm object chứa message
-            return Ok(new
-            {
-                message = "Cập nhật thông tin khách hàng thành công!",
-                updatedAt = DateTime.Now
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        command.Id = id;
+        await _mediator.Send(command);
+        return NoContent();
     }
 
-    // DELETE: api/customers/{id}
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        try
-        {
-            await _customerService.DeleteCustomerAsync(id);
-            return NoContent(); // Bị chặn lại bởi Interceptor và tự động đổi thành Soft Delete
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        await _mediator.Send(new DeleteCustomerCommand(id));
+        return NoContent();
     }
 }

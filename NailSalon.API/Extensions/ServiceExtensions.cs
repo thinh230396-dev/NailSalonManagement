@@ -1,24 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NailSalon.Application.Services;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NailSalon.Application.Interfaces.Repositories;
 using NailSalon.Infrastructure.Data;
 using NailSalon.Infrastructure.Data.Interceptors;
 using NailSalon.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using NailSalon.Application.Interfaces.Services;
-
+using NailSalon.Infrastructure.Services;
 
 
 namespace NailSalon.API.Extensions;
 
 public static class ServiceExtensions
 {
-    // 1. Cấu hình kết nối SQL Server & Đăng ký Interceptor
-    public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
+    // 1. Cấu hình kết nối SQL Server & Interceptor
+    public static void ConfigureSqlContext(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        // Đăng ký Interceptor như một Singleton
         services.AddSingleton<AuditableEntityInterceptor>();
 
         services.AddDbContext<NailSalonDbContext>((sp, options) =>
@@ -26,40 +26,36 @@ public static class ServiceExtensions
             var interceptor = sp.GetRequiredService<AuditableEntityInterceptor>();
 
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-                   .AddInterceptors(interceptor); // Nạp Interceptor (tự động điền ngày tạo/cập nhật, soft delete) vào DbContext
+                   .AddInterceptors(interceptor);
         });
     }
 
-    // 2. Cấu hình Unit of Work và Repositories
+    // 2. Cấu hình UnitOfWork và Repositories
     public static void ConfigureRepositoryManager(this IServiceCollection services)
     {
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IInvoiceRepository, InvoiceRepository>();
     }
 
+    // 3. Application Services cũ đã bỏ vì dùng CQRS + MediatR
     public static void ConfigureApplicationServices(this IServiceCollection services)
     {
-        // Đăng ký AutoMapper
-        services.AddAutoMapper(config =>
-        {
-            config.AddMaps(typeof(NailSalon.Application.Mappings.CustomerProfile).Assembly);
-        });
-
-        // Đăng ký các Business Services
-        services.AddScoped<ICustomerService, CustomerService>();
-        // Sau này có thêm IAppointmentService... thì đăng ký tiếp ở đây
-        services.AddScoped<IEmployeeService, EmployeeService>();
-        services.AddScoped<IAppointmentService, AppointmentService>();
-        services.AddScoped<IInvoiceService, InvoiceService>();
-        services.AddScoped<IDashboardService, DashboardService>();
-        services.AddScoped<INailServiceLogic, NailServiceLogic>();
-        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
     }
 
-    public static void ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+    // 4. Cấu hình JWT Authentication
+    public static void ConfigureJwtAuthentication(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
-        var secretKey = jwtSettings["Secret"] ?? throw new Exception("Thiếu cấu hình JWT Secret.");
+        var secretKey = jwtSettings["Secret"]
+            ?? throw new Exception("Thiếu cấu hình JWT Secret.");
 
         services.AddAuthentication(options =>
         {
@@ -74,9 +70,11 @@ public static class ServiceExtensions
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
+
                 ValidIssuer = jwtSettings["Issuer"],
                 ValidAudience = jwtSettings["Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(secretKey))
             };
         });
     }

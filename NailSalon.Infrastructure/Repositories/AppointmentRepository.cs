@@ -12,9 +12,9 @@ public class AppointmentRepository : GenericRepository<Appointment>, IAppointmen
     {
     }
 
-    public async Task<bool> IsTimeSlotAvailableAsync(Guid employeeId, DateTime startTime, int durationMinutes)
+    public async Task<bool> IsTimeSlotAvailableAsync(Guid employeeId, DateTime startTime, int DurationInMinutes)
     {
-        var endTime = startTime.AddMinutes(durationMinutes);
+        var endTime = startTime.AddMinutes(DurationInMinutes);
 
         // Trả về true nếu KHÔNG CÓ bất kỳ lịch hẹn nào bị trùng lấn thời gian
         var hasConflict = await _dbSet

@@ -1,47 +1,71 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.DTOs.Invoice;
-using NailSalon.Application.Interfaces.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.Invoices.Commands.AddService;
+using NailSalon.Application.Features.Invoices.Commands.Create;
+using NailSalon.Application.Features.Invoices.Commands.Delete;
+using NailSalon.Application.Features.Invoices.Commands.Payment;
+using NailSalon.Application.Features.Invoices.Commands.Update;
+using NailSalon.Application.Features.Invoices.Queries.GetById;
+using NailSalon.Application.Features.Invoices.Queries.GetList;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class InvoicesController : ControllerBase
 {
-    private readonly IInvoiceService _invoiceService;
+    private readonly IMediator _mediator;
 
-    public InvoicesController(IInvoiceService invoiceService)
+    public InvoicesController(IMediator mediator)
     {
-        _invoiceService = invoiceService;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetList()
     {
-        var invoices = await _invoiceService.GetAllInvoicesAsync();
-        return Ok(invoices);
+        return Ok(await _mediator.Send(new GetInvoiceListQuery()));
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var invoice = await _invoiceService.GetInvoiceByIdAsync(id);
-        if (invoice == null) return NotFound("Không tìm thấy hóa đơn.");
-
-        return Ok(invoice);
+        return Ok(await _mediator.Send(new GetInvoiceByIdQuery(id)));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateInvoiceDto dto)
+    public async Task<IActionResult> Create(CreateInvoiceCommand command)
     {
-        try
-        {
-            var newInvoice = await _invoiceService.CreateInvoiceAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = newInvoice.Id }, newInvoice);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        return Ok(await _mediator.Send(command));
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, UpdateInvoiceCommand command)
+    {
+        command.Id = id;
+        await _mediator.Send(command);
+        return NoContent();
+    }
+
+    [HttpPost("{id:guid}/services")]
+    public async Task<IActionResult> AddService(Guid id, AddServiceToInvoiceCommand command)
+    {
+        command.InvoiceId = id;
+        await _mediator.Send(command);
+        return NoContent();
+    }
+
+    [HttpPut("{id:guid}/pay")]
+    public async Task<IActionResult> Pay(Guid id)
+    {
+        await _mediator.Send(new PayInvoiceCommand { InvoiceId = id });
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _mediator.Send(new DeleteInvoiceCommand(id));
+        return NoContent();
     }
 }

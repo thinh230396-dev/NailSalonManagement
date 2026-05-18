@@ -1,80 +1,57 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.DTOs.NailService;
-using NailSalon.Application.Interfaces.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.NailServices.Commands.Create;
+using NailSalon.Application.Features.NailServices.Commands.Delete;
+using NailSalon.Application.Features.NailServices.Commands.Update;
+using NailSalon.Application.Features.NailServices.Queries.GetById;
+using NailSalon.Application.Features.NailServices.Queries.GetList;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class ServicesController : ControllerBase
 {
-    private readonly INailServiceLogic _nailServiceLogic;
+    private readonly IMediator _mediator;
 
-    public ServicesController(INailServiceLogic nailServiceLogic)
+    public ServicesController(IMediator mediator)
     {
-        _nailServiceLogic = nailServiceLogic;
+        _mediator = mediator;
     }
 
-    // GET: api/services
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetList()
     {
-        var services = await _nailServiceLogic.GetAllServicesAsync();
-        return Ok(services);
+        var result = await _mediator.Send(new GetNailServiceListQuery());
+        return Ok(result);
     }
 
-    // GET: api/services/{id}
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var service = await _nailServiceLogic.GetServiceByIdAsync(id);
-        if (service == null) return NotFound("Không tìm thấy dịch vụ.");
-
-        return Ok(service);
+        var result = await _mediator.Send(new GetNailServiceByIdQuery(id));
+        return Ok(result);
     }
 
-    // POST: api/services
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUpdateNailServiceDto dto)
+    public async Task<IActionResult> Create(CreateNailServiceCommand command)
     {
-        try
-        {
-            var newService = await _nailServiceLogic.CreateServiceAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = newService.Id }, newService);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        var id = await _mediator.Send(command);
+        return Ok(id);
     }
 
-    // PUT: api/services/{id}
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] CreateUpdateNailServiceDto dto)
+    public async Task<IActionResult> Update(Guid id, UpdateNailServiceCommand command)
     {
-        try
-        {
-            await _nailServiceLogic.UpdateServiceAsync(id, dto);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        command.Id = id;
+        await _mediator.Send(command);
+        return NoContent();
     }
 
-    // DELETE: api/services/{id}
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        try
-        {
-            await _nailServiceLogic.DeleteServiceAsync(id);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        await _mediator.Send(new DeleteNailServiceCommand(id));
+        return NoContent();
     }
 }

@@ -1,75 +1,54 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.DTOs.Employee;
-using NailSalon.Application.Interfaces.Services;
-
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.Employees.Commands.Create;
+using NailSalon.Application.Features.Employees.Commands.Delete;
+using NailSalon.Application.Features.Employees.Commands.Update;
+using NailSalon.Application.Features.Employees.Queries.GetById;
+using NailSalon.Application.Features.Employees.Queries.GetList;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class EmployeesController : ControllerBase
 {
-    private readonly IEmployeeService _employeeService;
+    private readonly IMediator _mediator;
 
-    public EmployeesController(IEmployeeService employeeService)
+    public EmployeesController(IMediator mediator)
     {
-        _employeeService = employeeService;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetList()
     {
-        var employees = await _employeeService.GetAllEmployeesAsync();
-        return Ok(employees);
+        return Ok(await _mediator.Send(new GetEmployeeListQuery()));
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var employee = await _employeeService.GetEmployeeByIdAsync(id);
-        if (employee == null) return NotFound("Không tìm thấy nhân viên.");
-        return Ok(employee);
+        return Ok(await _mediator.Send(new GetEmployeeByIdQuery(id)));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUpdateEmployeeDto dto)
+    public async Task<IActionResult> Create(CreateEmployeeCommand command)
     {
-        try
-        {
-            var newEmployee = await _employeeService.CreateEmployeeAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = newEmployee.Id }, newEmployee);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        return Ok(await _mediator.Send(command));
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] CreateUpdateEmployeeDto dto)
+    public async Task<IActionResult> Update(Guid id, UpdateEmployeeCommand command)
     {
-        try
-        {
-            await _employeeService.UpdateEmployeeAsync(id, dto);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        command.Id = id;
+        await _mediator.Send(command);
+        return NoContent();
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        try
-        {
-            await _employeeService.DeleteEmployeeAsync(id);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        await _mediator.Send(new DeleteEmployeeCommand(id));
+        return NoContent();
     }
 }

@@ -1,47 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NailSalon.Application.DTOs.Auth;
-using NailSalon.Application.Interfaces.Services;
-using NailSalon.Application.Services;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Features.Auth.Commands.Login;
+using NailSalon.Application.Features.Auth.Commands.Register;
 
 namespace NailSalon.API.Controllers;
 
-[Route("api/[controller]")]
 [ApiController]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    private readonly IMediator _mediator;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IMediator mediator)
     {
-        _authService = authService;
-    }
-
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
-    {
-        try
-        {
-            var result = await _authService.RegisterAsync(dto);
-            return Ok(new { message = result });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
+        _mediator = mediator;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto dto)
+    public async Task<IActionResult> Login(LoginCommand command)
     {
-        try
-        {
-            var response = await _authService.LoginAsync(dto);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            // Trả về Unauthorized (401) nếu sai tài khoản/mật khẩu
-            return Unauthorized(new { message = ex.Message });
-        }
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 }
