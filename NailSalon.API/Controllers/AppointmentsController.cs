@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NailSalon.Application.DTOs.Appointment;
-using NailSalon.Application.Interfaces;
+using NailSalon.Application.Interfaces.Services;
 using NailSalon.Domain.Enums;
 
 namespace NailSalon.API.Controllers;

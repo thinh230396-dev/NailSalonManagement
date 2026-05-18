@@ -1,6 +1,6 @@
 ﻿using NailSalon.Application.DTOs.Invoice;
 
-namespace NailSalon.Application.Interfaces;
+namespace NailSalon.Application.Interfaces.Services;
 
 public interface IInvoiceService
 {

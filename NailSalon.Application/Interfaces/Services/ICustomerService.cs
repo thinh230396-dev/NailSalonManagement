@@ -1,6 +1,6 @@
 ﻿using NailSalon.Application.DTOs.Customer;
 
-namespace NailSalon.Application.Interfaces;
+namespace NailSalon.Application.Interfaces.Services;
 
 public interface ICustomerService
 {

@@ -1,6 +1,6 @@
 ﻿using NailSalon.Domain.Common;
 
-namespace NailSalon.Domain.Interfaces.Repositories;
+namespace NailSalon.Application.Interfaces.Repositories;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using NailSalon.Domain.Common;
-using NailSalon.Domain.Interfaces.Repositories;
+using NailSalon.Application.Interfaces.Repositories;
 using NailSalon.Infrastructure.Data;
 
 namespace NailSalon.Infrastructure.Repositories;

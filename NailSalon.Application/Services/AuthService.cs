@@ -2,9 +2,9 @@
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using NailSalon.Application.DTOs.Auth;
-using NailSalon.Application.Interfaces;
+using NailSalon.Application.Interfaces.Services;
 using NailSalon.Domain.Entities;
-using NailSalon.Domain.Interfaces.Repositories;
+using NailSalon.Application.Interfaces.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

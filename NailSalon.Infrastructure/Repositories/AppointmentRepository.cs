@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NailSalon.Domain.Entities;
 using NailSalon.Domain.Enums;
-using NailSalon.Domain.Interfaces.Repositories;
+using NailSalon.Application.Interfaces.Repositories;
 using NailSalon.Infrastructure.Data;
 
 namespace NailSalon.Infrastructure.Repositories;

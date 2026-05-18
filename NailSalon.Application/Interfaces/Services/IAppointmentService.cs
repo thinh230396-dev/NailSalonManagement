@@ -1,6 +1,6 @@
 ﻿using NailSalon.Application.DTOs.Appointment;
 
-namespace NailSalon.Application.Interfaces;
+namespace NailSalon.Application.Interfaces.Services;
 
 public interface IAppointmentService
 {

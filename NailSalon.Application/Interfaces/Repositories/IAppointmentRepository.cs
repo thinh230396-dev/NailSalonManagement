@@ -1,6 +1,6 @@
 ﻿using NailSalon.Domain.Entities;
 
-namespace NailSalon.Domain.Interfaces.Repositories;
+namespace NailSalon.Application.Interfaces.Repositories;
 
 public interface IAppointmentRepository : IGenericRepository<Appointment>
 {

@@ -1,7 +1,7 @@
 ﻿using NailSalon.Application.DTOs.Dashboard;
-using NailSalon.Application.Interfaces;
+using NailSalon.Application.Interfaces.Services;
 using NailSalon.Domain.Entities;
-using NailSalon.Domain.Interfaces.Repositories;
+using NailSalon.Application.Interfaces.Repositories;
 
 namespace NailSalon.Application.Services;
 

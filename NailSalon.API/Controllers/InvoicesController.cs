@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NailSalon.Application.DTOs.Invoice;
-using NailSalon.Application.Interfaces;
+using NailSalon.Application.Interfaces.Services;
 
 namespace NailSalon.API.Controllers;
 

@@ -1,6 +1,6 @@
 ﻿using NailSalon.Application.DTOs.NailService;
 
-namespace NailSalon.Application.Interfaces;
+namespace NailSalon.Application.Interfaces.Services;
 
 public interface INailServiceLogic
 {

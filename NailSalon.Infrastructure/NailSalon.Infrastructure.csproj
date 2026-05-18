@@ -19,4 +19,8 @@
     <ProjectReference Include="..\NailSalon.Domain\NailSalon.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

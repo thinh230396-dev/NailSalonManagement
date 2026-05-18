@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NailSalon.Application.Interfaces;
 using NailSalon.Application.Services;
-using NailSalon.Domain.Interfaces.Repositories;
+using NailSalon.Application.Interfaces.Repositories;
 using NailSalon.Infrastructure.Data;
 using NailSalon.Infrastructure.Data.Interceptors;
 using NailSalon.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using NailSalon.Application.Interfaces.Services;
 
 
 

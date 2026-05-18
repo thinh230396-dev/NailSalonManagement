@@ -6,8 +6,8 @@ namespace NailSalon.Domain.Enums;
 
 public enum AppointmentStatus
 {
-    Pending = 0,
-    Confirmed = 1,
-    Completed = 2,
-    Cancelled = 3
+    Pending = 0, // chờ duyệt 
+    Confirmed = 1, // đã xác nhận
+    Completed = 2, // đã hoàn thành
+    Cancelled = 3 
 }

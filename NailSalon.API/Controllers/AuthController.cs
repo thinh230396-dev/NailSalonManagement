@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NailSalon.Application.DTOs.Auth;
-using NailSalon.Application.Interfaces;
+using NailSalon.Application.Interfaces.Services;
 using NailSalon.Application.Services;
 
 namespace NailSalon.API.Controllers;

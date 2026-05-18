@@ -1,6 +1,6 @@
-﻿using NailSalon.Application.DTOs.Employee; // <-- Dòng này cực kỳ quan trọng
+﻿using NailSalon.Application.DTOs.Employee;
 
-namespace NailSalon.Application.Interfaces;
+namespace NailSalon.Application.Interfaces.Services;
 
 public interface IEmployeeService
 {
