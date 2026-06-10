@@ -1,0 +1,1048 @@
+{
+  "info": {
+    "_postman_id": "50874282-e019-4e39-9823-c50601828177",
+    "name": "NailManager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54534977",
+    "_collection_link": "https://go.postman.co/collection/54534977-50874282-e019-4e39-9823-c50601828177?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"user_test_01\",\r\n  \"password\": \"123456\",\r\n  \"roleId\": \"5b86e09e-7815-4680-b2cc-f5cbda0bb731\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/auth/register",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"user_test_01\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"refreshToken\": \"KRjhimnmbHWMEwD/hjKgwHiHNb+gd3JfSGxWw+BzaGCiNRm8gIy7r/k2y9FtYeBWWqJPeCeiliqP4vzaNUDr6g==\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/auth/refresh-token",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "auth",
+                "refresh-token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"refreshToken\": \"kWAOUu0/YkMI5OED7t62tSH3yJNwR23VpxqaL1ZXI12dqgujV5KUsV7yH+wRoEMc9iHwjrYU+l+JhkPtwd/dkg==\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/auth/logout",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Overview",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer By Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Phạm Thu Hà\",\r\n  \"phoneNumber\": \"0934567890\",\r\n  \"email\": \"phamthuha@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/customers",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Phạm Thu Hà VIP\",\r\n  \"phoneNumber\": \"0934567891\",\r\n  \"email\": \"phamthuha.vip@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/customers/61ac1d92-a1a9-4ccb-8565-eeb6e6a7956e",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "customers",
+                "61ac1d92-a1a9-4ccb-8565-eeb6e6a7956e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7170/api/customers/61ac1d92-a1a9-4ccb-8565-eeb6e6a7956e",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "customers",
+                "61ac1d92-a1a9-4ccb-8565-eeb6e6a7956e"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Employee By Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Lê Hoàng Nam\",\r\n  \"phoneNumber\": \"0923456789\",\r\n  \"position\": \"Thợ Nail Chính\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/employees",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "employees"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/employees/dd96bbdf-b0b2-4afb-915a-bde77964d5df",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "employees",
+                "dd96bbdf-b0b2-4afb-915a-bde77964d5df"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "Get All Services",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Service By Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create Service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"serviceName\": \"Sơn gel Hàn Quốc\",\r\n  \"price\": 180000,\r\n  \"durationInMinutes\": 45\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/services",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Service",
+          "request": {
+            "method": "DELETE",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Update Service",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"serviceName\": \"Sơn gel Hàn Quốc VIP\",\r\n  \"price\": 220000,\r\n  \"durationInMinutes\": 50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/services/bbcc982e-2cd9-480f-be3e-5e8ac7f7f34b",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "services",
+                "bbcc982e-2cd9-480f-be3e-5e8ac7f7f34b"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        {
+          "name": "Get Appointments By Date",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Appointment By Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create Appointment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"appointmentTime\": \"2026-06-10T09:00:00\",\r\n  \"notes\": \"Khách đặt lịch làm sơn gel\",\r\n  \"customerId\": \"0c294bd0-d4b2-4514-9d92-c4095f513ee2\",\r\n  \"employeeId\": \"6bdcbc8e-73cd-49d7-8d80-1d1ae39a92a3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/appointments",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "appointments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Appointment",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"appointmentTime\": \"2026-06-10T14:00:00\",\r\n  \"notes\": \"Khách đổi lịch sang buổi chiều\",\r\n  \"customerId\": \"0c294bd0-d4b2-4514-9d92-c4095f513ee2\",\r\n  \"employeeId\": \"6bdcbc8e-73cd-49d7-8d80-1d1ae39a92a3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/appointments/fe5ee845-3348-4b4b-b315-4caeda833173",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "appointments",
+                "fe5ee845-3348-4b4b-b315-4caeda833173"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Appointment",
+          "request": {
+            "method": "DELETE",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Invoices",
+      "item": [
+        {
+          "name": "Get All Invoices",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get Invoice By Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceCode\": \"INV-TEST-002\",\r\n  \"customerId\": \"0c294bd0-d4b2-4514-9d92-c4095f513ee2\",\r\n  \"employeeId\": \"6bdcbc8e-73cd-49d7-8d80-1d1ae39a92a3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/invoices",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Invoice",
+          "request": {
+            "method": "PUT",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Invoice",
+          "request": {
+            "method": "DELETE",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Add Service To Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceId\": \"74c24001-65d3-4bfa-8356-fdf5b141365d\",\r\n  \"nailServiceId\": \"9219d610-6a6e-4abc-af2f-0ae321839138\",\r\n  \"quantity\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/invoices/74c24001-65d3-4bfa-8356-fdf5b141365d/services",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices",
+                "74c24001-65d3-4bfa-8356-fdf5b141365d",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Test1",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Nguyen Thi Lan\",\r\n  \"phoneNumber\": \"0908888888\",\r\n  \"email\": \"lan@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/customers",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Tran Minh Anh\",\r\n  \"phoneNumber\": \"0912345678\",\r\n  \"salary\": 12000000\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/employees",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "employees"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Service",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"serviceName\": \"Gội đầu thư giãn\",\r\n  \"price\": 100000,\r\n  \"durationInMinutes\": 30\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/services",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceCode\": \"INV-DEMO-001\",\r\n  \"customerId\": \"0c294bd0-d4b2-4514-9d92-c4095f513ee2\",\r\n  \"employeeId\": \"6bdcbc8e-73cd-49d7-8d80-1d1ae39a92a3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/invoices",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Service To Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceId\": \"230a4423-4a9c-4fa6-98cd-24dcf245956f\",\r\n  \"nailServiceId\": \"9219d610-6a6e-4abc-af2f-0ae321839138\",\r\n  \"quantity\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/invoices/230a4423-4a9c-4fa6-98cd-24dcf245956f/services",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices",
+                "230a4423-4a9c-4fa6-98cd-24dcf245956f",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Invoice",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Dashboard Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7170/api/dashboards/overview",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "dashboards",
+                "overview"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Test2",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Nguyễn Thị Lan Demo\",\r\n  \"phoneNumber\": \"0901234501\",\r\n  \"email\": \"landemo@gmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/customers",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Trần Minh Anh Demo\",\r\n  \"phoneNumber\": \"0911234501\",\r\n  \"position\": \"Thợ nail chính\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/employees",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "employees"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"serviceName\": \"Sơn gel cao cấp demo\",\r\n  \"price\": 250000,\r\n  \"durationInMinutes\": 45\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/services",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceCode\": \"INV-DEMO-002\",\r\n  \"customerId\": \"{{customerId}}\",\r\n  \"employeeId\": \"{{employeeId}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/invoices",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Service To Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"invoiceId\": \"{{invoiceId}}\",\r\n  \"nailServiceId\": \"{{serviceId}}\",\r\n  \"quantity\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://localhost:7170/api/invoices/{{invoiceId}}/services",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices",
+                "{{invoiceId}}",
+                "services"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Invoices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7170/api/invoices",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Dashboard Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7170/api/dashboards/overview",
+              "protocol": "https",
+              "host": [
+                "localhost"
+              ],
+              "port": "7170",
+              "path": [
+                "api",
+                "dashboards",
+                "overview"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
