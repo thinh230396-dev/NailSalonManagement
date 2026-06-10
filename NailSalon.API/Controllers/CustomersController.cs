@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Common.Models;
 using NailSalon.Application.Features.Customers.Commands.Create;
 using NailSalon.Application.Features.Customers.Commands.Delete;
 using NailSalon.Application.Features.Customers.Commands.Update;
@@ -23,35 +24,53 @@ public class CustomersController : ControllerBase
     public async Task<IActionResult> GetList()
     {
         var result = await _mediator.Send(new GetCustomerListQuery());
-        return Ok(result);
+
+        return Ok(ApiResponse<object>.Ok(
+            result,
+            "Lấy danh sách khách hàng thành công"));
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await _mediator.Send(new GetCustomerByIdQuery(id));
-        return Ok(result);
+
+        return Ok(ApiResponse<object>.Ok(
+            result,
+            "Lấy thông tin khách hàng thành công"));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateCustomerCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateCustomerCommand command)
     {
         var id = await _mediator.Send(command);
-        return Ok(id);
+
+        return Ok(ApiResponse<object>.Created(
+            new { id },
+            "Tạo khách hàng thành công"));
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, UpdateCustomerCommand command)
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateCustomerCommand command)
     {
         command.Id = id;
+
         await _mediator.Send(command);
-        return NoContent();
+
+        return Ok(ApiResponse<object>.Ok(
+            new { id },
+            "Cập nhật khách hàng thành công"));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _mediator.Send(new DeleteCustomerCommand(id));
-        return NoContent();
+
+        return Ok(ApiResponse<object>.Ok(
+            new { id },
+            "Xóa khách hàng thành công"));
     }
 }

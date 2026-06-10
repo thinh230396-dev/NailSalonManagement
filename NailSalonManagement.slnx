@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Postman/">
+    <File Path="../../../Downloads/NailManager.postman_collection.json" />
+  </Folder>
   <Project Path="NailSalon.API/NailSalon.API.csproj" />
   <Project Path="NailSalon.Application/NailSalon.Application.csproj" />
   <Project Path="NailSalon.Domain/NailSalon.Domain.csproj" Id="7592fa29-ef10-41a5-83e6-63445b2ac25b" />

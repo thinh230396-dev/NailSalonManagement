@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NailSalon.Application.Common.Models;
 using NailSalon.Application.Features.Employees.Commands.Create;
 using NailSalon.Application.Features.Employees.Commands.Delete;
 using NailSalon.Application.Features.Employees.Commands.Update;
@@ -22,33 +23,54 @@ public class EmployeesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetList()
     {
-        return Ok(await _mediator.Send(new GetEmployeeListQuery()));
+        var result = await _mediator.Send(new GetEmployeeListQuery());
+
+        return Ok(ApiResponse<object>.Ok(
+            result,
+            "Lấy danh sách nhân viên thành công"));
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        return Ok(await _mediator.Send(new GetEmployeeByIdQuery(id)));
+        var result = await _mediator.Send(new GetEmployeeByIdQuery(id));
+
+        return Ok(ApiResponse<object>.Ok(
+            result,
+            "Lấy thông tin nhân viên thành công"));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateEmployeeCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateEmployeeCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        var id = await _mediator.Send(command);
+
+        return Ok(ApiResponse<object>.Created(
+            new { id },
+            "Tạo nhân viên thành công"));
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, UpdateEmployeeCommand command)
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateEmployeeCommand command)
     {
         command.Id = id;
+
         await _mediator.Send(command);
-        return NoContent();
+
+        return Ok(ApiResponse<object>.Ok(
+            new { id },
+            "Cập nhật nhân viên thành công"));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _mediator.Send(new DeleteEmployeeCommand(id));
-        return NoContent();
+
+        return Ok(ApiResponse<object>.Ok(
+            new { id },
+            "Xóa nhân viên thành công"));
     }
 }

@@ -19,6 +19,8 @@ public class NailSalonDbContext : DbContext
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<InvoiceDetail> InvoiceDetails => Set<InvoiceDetail>();
+    public DbSet<UserSession> UserSessions { get; set; }
+    public DbSet<AuditLog> AuditLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

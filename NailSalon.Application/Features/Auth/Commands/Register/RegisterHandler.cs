@@ -42,14 +42,11 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, AuthResponseDto>
                 throw new NotFoundException(nameof(Employee), request.EmployeeId.Value);
         }
 
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            Username = request.Username,
-            PasswordHash = request.Password,
-            RoleId = request.RoleId,
-            EmployeeId = request.EmployeeId
-        };
+        var user = new User(
+            request.Username,
+            request.Password,
+            request.RoleId,
+            request.EmployeeId);
 
         await _unitOfWork.Repository<User>().AddAsync(user);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -58,10 +55,19 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, AuthResponseDto>
 
         return new AuthResponseDto
         {
-            UserId = user.Id,
-            Username = user.Username,
-            RoleName = role.RoleName,
-            Token = token
+            AccessToken = token,
+            RefreshToken = string.Empty,
+            AccessTokenExpiredAt = DateTime.UtcNow.AddHours(2),
+            RefreshTokenExpiredAt = DateTime.UtcNow,
+            User = new UserInfoDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                RoleName = role.RoleName,
+                EmployeeId = user.EmployeeId,
+                IsActive = user.IsActive,
+                LastLoginAt = user.LastLoginAt
+            }
         };
     }
 }

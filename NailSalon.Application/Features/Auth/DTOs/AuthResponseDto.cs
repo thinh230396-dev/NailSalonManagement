@@ -2,11 +2,13 @@
 
 public class AuthResponseDto
 {
-    public Guid UserId { get; set; }
+    public string AccessToken { get; set; } = string.Empty;
 
-    public string Username { get; set; } = string.Empty;
+    public string RefreshToken { get; set; } = string.Empty;
 
-    public string RoleName { get; set; } = string.Empty;
+    public DateTime AccessTokenExpiredAt { get; set; }
 
-    public string Token { get; set; } = string.Empty;
+    public DateTime RefreshTokenExpiredAt { get; set; }
+
+    public UserInfoDto User { get; set; } = null!;
 }

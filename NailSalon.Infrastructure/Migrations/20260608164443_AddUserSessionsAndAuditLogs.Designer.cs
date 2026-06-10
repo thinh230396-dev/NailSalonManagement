@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NailSalon.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using NailSalon.Infrastructure.Data;
 namespace NailSalon.Infrastructure.Migrations
 {
     [DbContext(typeof(NailSalonDbContext))]
-    partial class NailSalonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260608164443_AddUserSessionsAndAuditLogs")]
+    partial class AddUserSessionsAndAuditLogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,48 +63,6 @@ namespace NailSalon.Infrastructure.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Appointments");
-                });
-
-            modelBuilder.Entity("NailSalon.Domain.Entities.AuditLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeviceInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EntityId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EntityName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IpAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AuditLogs");
                 });
 
             modelBuilder.Entity("NailSalon.Domain.Entities.Customer", b =>
@@ -326,14 +287,8 @@ namespace NailSalon.Infrastructure.Migrations
                     b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -358,47 +313,6 @@ namespace NailSalon.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("NailSalon.Domain.Entities.UserSession", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeviceInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpiredAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IpAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("RefreshToken")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserSessions");
-                });
-
             modelBuilder.Entity("NailSalon.Domain.Entities.Appointment", b =>
                 {
                     b.HasOne("NailSalon.Domain.Entities.Customer", "Customer")
@@ -416,15 +330,6 @@ namespace NailSalon.Infrastructure.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("NailSalon.Domain.Entities.AuditLog", b =>
-                {
-                    b.HasOne("NailSalon.Domain.Entities.User", "User")
-                        .WithMany("AuditLogs")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NailSalon.Domain.Entities.Invoice", b =>
@@ -482,17 +387,6 @@ namespace NailSalon.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("NailSalon.Domain.Entities.UserSession", b =>
-                {
-                    b.HasOne("NailSalon.Domain.Entities.User", "User")
-                        .WithMany("Sessions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("NailSalon.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Appointments");
@@ -520,13 +414,6 @@ namespace NailSalon.Infrastructure.Migrations
             modelBuilder.Entity("NailSalon.Domain.Entities.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("NailSalon.Domain.Entities.User", b =>
-                {
-                    b.Navigation("AuditLogs");
-
-                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

@@ -46,6 +46,7 @@ public static class ServiceExtensions
     public static void ConfigureApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
     }
 
     // 4. Cấu hình JWT Authentication
